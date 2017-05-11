@@ -280,6 +280,12 @@ namespace MonoGame.Extended.Entities
             EntityRemoved?.Invoke(entity);
         }
 
+        internal EntityComponent AddComponent(Entity entity, Type componentType)
+        {
+            Debug.Assert(entity != null);
+            return AddComponent(entity, GetComponentTypeFrom(componentType));
+        }
+
         internal T AddComponent<T>(Entity entity) where T : EntityComponent
         {
             Debug.Assert(entity != null);
@@ -398,6 +404,10 @@ namespace MonoGame.Extended.Entities
             {
                 var components = _componentTypeEntitiesToComponents[i];
 
+                if (components == null)
+                {
+                    continue;
+                }
                 Debug.Assert(components != null);
 
                 EntityComponent component;

@@ -52,24 +52,22 @@ namespace MonoGame.Extended.Entities
         protected EntityProcessingSystem()
         {
         }
-
+        
         internal virtual void RefreshEntityComponents(Entity entity)
         {
-            var isInterested = Aspect.Matches(entity.ComponentBits);
-            if (!isInterested)
-                return;
-
             var contains = entity.SystemBits[BitIndex];
+            var isInterested = Aspect.Matches(entity.ComponentBits);
 
-            if (!contains && entity.IsActive)
-            {
-                Add(entity);
-            }
-            else if (contains && !entity.IsActive)
+            if (contains)
             {
                 Remove(entity);
             }
+            else if (isInterested)
+            {
+                Add(entity);
+            }
         }
+
         public virtual void OnEntityAdded(Entity entity)
         {
         }
